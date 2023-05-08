@@ -3,7 +3,7 @@ from aiogram.dispatcher.filters import Text
 from aiogram import Dispatcher, types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
-from main import bot
+
 
 class FSMClient(StatesGroup):
     full_price_CNY = State()
@@ -50,9 +50,7 @@ async def quantity(message : types.Message, state : FSMContext):
 
     user_data = await state.get_data()
     mes_id = user_data['id']
-    mes_txt = user_data['txt']
-    await bot.edit_text(f'[Введите Кол-во Позиций]',
-                                     reply_markup=quantity_kb)
+    await edit_message(f'[Введите кол-во позиций]', mes_id)
 
 # # 22 доставка, 30 гарантия груза, 1000
 # @dp.message_hendler(state=FSMClient.full_position)
