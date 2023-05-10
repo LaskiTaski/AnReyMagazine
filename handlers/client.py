@@ -3,6 +3,7 @@ from aiogram.dispatcher.filters import Text
 from aiogram import Dispatcher, types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
+from create_bot import bot
 
 
 class FSMClient(StatesGroup):
@@ -15,12 +16,8 @@ class FSMClient(StatesGroup):
 async def cb_price(callback: types.CallbackQuery, state : FSMContext):
     price_kb = types.InlineKeyboardMarkup(row_width=1)
     price_kb.add(cancel, back)
-
-    await state.update_data(id=callback.message.message_id)
-    await state.update_data(txt=callback.message.text)
-
+    await state.update_data(id_one=callback.message.message_id)
     await state.set_state(FSMClient.full_price_CNY.state)
-
     await callback.message.edit_text(f'[Введите Цену товара в CNY]',
                                      reply_markup=price_kb)
 
@@ -43,24 +40,41 @@ async def cancel_handler(callback: types.CallbackQuery, state: FSMContext):
 async def quantity(message : types.Message, state : FSMContext):
     quantity_kb = types.InlineKeyboardMarkup(row_width=1)
     quantity_kb.add(cancel, back)
-
+    await state.update_data(CNY_text=message.text)
     await message.delete()
-
     await FSMClient.next()
-
+    await state.update_data(id_two=message.message_id)
     user_data = await state.get_data()
-    mes_id = user_data['id']
-    await edit_message(f'[Введите кол-во позиций]', mes_id)
+    id_one = user_data['id_one']
+    CNY_text = user_data['CNY_text']
+    await bot.edit_message_text(
+                                chat_id=message.chat.id,
+                                message_id=id_one,
+                                text=f'[А теперь введите кол-во позиций:\n'
+                                     f'Цена товара: {CNY_text}]',
+                                reply_markup=quantity_kb)
+
 
 # # 22 доставка, 30 гарантия груза, 1000
 # @dp.message_hendler(state=FSMClient.full_position)
-async def calculation(callback : types.CallbackQuery, state : FSMContext):
+async def calculation(message: types.Message, state: FSMContext):
     calculation_kb = types.InlineKeyboardMarkup(row_width=1)
     calculation_kb.add(cancel, back)
+
+    await state.update_data(POS_text=message.text)
+
+    await message.delete()
     await FSMClient.next()
-    await callback.message.edit_text(f'[Итоговая сумма:\n'
-                                     f']',
-                                     reply_markup=calculation_kb)
+    user_data = await state.get_data()
+    id_two = user_data['id_two']
+    POS_text = user_data['POS_text']
+    await bot.edit_message_text(
+                                chat_id=message.chat.id,
+                                message_id=id_two,
+                                text=f'[А т\n'
+                                     f'Цена товара: {POS_text}]',
+                                reply_markup=calculation_kb)
+
 
 
 def register_handlers_client(dp : Dispatcher):
@@ -68,5 +82,6 @@ def register_handlers_client(dp : Dispatcher):
     dp.register_callback_query_handler(cancel_handler, state='*', text='отмена')
     dp.register_callback_query_handler(cancel_handler, Text(equals='отмена', ignore_case=True), state='*')
     dp.register_message_handler(quantity, state=FSMClient.full_price_CNY)
+    dp.register_message_handler(calculation, state=FSMClient.full_position)
 
 
