@@ -1,9 +1,8 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-currency = InlineKeyboardButton('Актуальный курс💹', callback_data='currency')
-article_one = InlineKeyboardButton('О приложении📂', callback_data='article_one')
-article_two = InlineKeyboardButton('О составлении заказаℹ', callback_data='article_two')
+txt_one = InlineKeyboardButton('О приложении📂', callback_data='txt_one')
+txt_two = InlineKeyboardButton('О составлении заказаℹ', callback_data='txt_two')
 price = InlineKeyboardButton('Рассчитать стоимость заказа🗑', callback_data='price')
 
 
-back = InlineKeyboardButton('Вернуться в меню🔙', callback_data='back_menu')
+back = InlineKeyboardButton('Вернуться в меню🔙', callback_data='menu')

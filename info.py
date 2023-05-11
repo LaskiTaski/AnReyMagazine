@@ -11,7 +11,7 @@ def currency_info():
 
     soup = BeautifulSoup(response.text, 'lxml')
     # info = soup.find('div', class_="ConverterHeader-Rate").text
-    data = soup.find_all('div', class_="ConverterInput")[-1].find('input').get('value')
-    data = data.replace(',', '.')
+    data = soup.find_all('div', class_="ConverterInput")[-1].find('input').\
+        get('value').replace(',', '.')
     data = f'1 Китайский юань = {float(data) + 1.5} Российского рубля'
     return data
