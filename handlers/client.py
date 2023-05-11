@@ -1,5 +1,4 @@
 from button.client_kb import *
-from aiogram.dispatcher.filters import Text
 from aiogram import Dispatcher, types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
@@ -11,18 +10,18 @@ class FSMClient(StatesGroup):
     full_position = State()
     full_price_RUB = State()
 
-# ЖДЁМ Ввод стоимости заказа в CNY
+
 # @dp.callback_query_handler(text='price', state=None)
 async def cb_price(callback: types.CallbackQuery, state : FSMContext):
     price_kb = types.InlineKeyboardMarkup(row_width=1)
     price_kb.add(cancel, back)
+
     await state.update_data(ID=callback.message.message_id)
     await state.set_state(FSMClient.full_price_CNY.state)
     await callback.message.edit_text(f'[Введите Цену товара в CNY]',
                                      reply_markup=price_kb)
 
 
-#Выход из состояний
 # @dp.callback_query_handler(text='отмена', state='*')
 async def cancel_handler(callback: types.CallbackQuery, state: FSMContext):
     cancel_kb = types.InlineKeyboardMarkup(row_width=1)
@@ -32,8 +31,9 @@ async def cancel_handler(callback: types.CallbackQuery, state: FSMContext):
     if current_state is None:
         return
     await callback.answer(text='Данные удалены',show_alert=True)
-    await callback.message.edit_text(text='Данные удалены',reply_markup=cancel_kb)
     await state.finish()
+    await callback.message.edit_text(text='Обновите данные',reply_markup=cancel_kb)
+
 
 
 # ЖДЁМ Кол-во позиций
