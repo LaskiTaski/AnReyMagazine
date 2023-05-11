@@ -7,7 +7,8 @@ from info import currency_info
 async def cmd_start( message : types.Message ):
     start_menu_kb = types.InlineKeyboardMarkup(row_width=1)
     start_menu_kb.add( currency, article_one, article_two )
-    await message.answer(f'[Информация о ЧЁМ-ТО](https://telegra.ph/Informaciya-o-magazine-05-07)',
+    await message.answer(f'[Информация о ЧЁМ-ТО\n](https://telegra.ph/Informaciya-o-magazine-05-07)'
+                         f'Актуальный курс:\n{currency_info()}',
                          reply_markup=start_menu_kb)
 
 
@@ -15,7 +16,8 @@ async def cmd_start( message : types.Message ):
 async def cb_back_menu(callback: types.CallbackQuery):
     start_menu_kb = types.InlineKeyboardMarkup(row_width=1)
     start_menu_kb.add( currency, article_one, article_two )
-    await callback.message.edit_text(f'[Информация о ЧЁМ-ТО](https://telegra.ph/Informaciya-o-magazine-05-07)',
+    await callback.message.edit_text(f'[Информация о ЧЁМ-ТО\n](https://telegra.ph/Informaciya-o-magazine-05-07)'
+                         f'Актуальный курс:\n{currency_info()}',
                          reply_markup=start_menu_kb)
 
 
