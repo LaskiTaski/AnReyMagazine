@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
+
 def currency_info():
     headers = {'User-Agent':
                    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36'}
@@ -13,5 +14,7 @@ def currency_info():
     # info = soup.find('div', class_="ConverterHeader-Rate").text
     data = soup.find_all('div', class_="ConverterInput")[-1].find('input').\
         get('value').replace(',', '.')
-    data = f'1 Китайский юань = {float(data) + 1.5} Российского рубля'
-    return data
+    return float(data)
+
+data = currency_info() +1.5
+print(data)

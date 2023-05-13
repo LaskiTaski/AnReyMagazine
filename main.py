@@ -3,9 +3,10 @@ from create_bot import  dp
 from handlers import client, admin, other
 
 
+other.register_handlers_client(dp)
 client.register_handlers_client(dp)
 # admin.register_handlers_client(dp)
-other.register_handlers_client(dp)
+
 
 
 if __name__ == '__main__':
