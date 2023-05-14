@@ -1,12 +1,14 @@
 from aiogram import types, Dispatcher
+from aiogram.dispatcher import FSMContext
 from button.other_kb import *
 from info import data
-
+from handlers.client import FSMClient
 
 # @dp.message_handler( commands=['start'] )
-async def cmd_start( message : types.Message ):
+async def cmd_start( message : types.Message, state : FSMContext ):
     start_menu_kb = types.InlineKeyboardMarkup(row_width=1)
     start_menu_kb.add( price, txt_one, txt_two )
+    await state.set_state(FSMClient.full_price_CNY.state)
     await message.answer(f'[Информация о ЧЁМ-ТО\n](https://telegra.ph/Informaciya-o-magazine-05-07)'
                          f'Актуальный курс:\n'
                          f'1 Китайский юань = {float(data)} Российского рубля',
@@ -42,7 +44,7 @@ async def cb_txt_two(callback: types.CallbackQuery):
 
 
 def register_handlers_client(dp : Dispatcher):
-    dp.register_message_handler(cmd_start, commands='start')
+    dp.register_message_handler(cmd_start, commands='start', state='*')
     dp.register_callback_query_handler(cb_menu, text='menu', state='*')
     dp.register_callback_query_handler(cb_txt_one, text='txt_one')
     dp.register_callback_query_handler(cb_txt_two, text='txt_two')

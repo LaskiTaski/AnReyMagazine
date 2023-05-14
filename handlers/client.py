@@ -75,7 +75,7 @@ async def calculation(message: types.Message, state: FSMContext):
                                 text=f'[Вы указали:\n'
                                      f'Стоимость : {CNY}\n'
                                      f'Кол-во : {POS}\n'
-                                     f'Общая стоимость {round((int(CNY) * data) + int(POS)*((22+33)*data+1000),2)}руб.]',
+                                     f'Общая стоимость {round((int(CNY) * data) + int(POS)*((24+40)*data+1000),2)}руб.]',
                                 reply_markup=calculation_kb)
 
 # @dp.callback_query_handler(text='go', state='full_price_RUB')
@@ -88,7 +88,7 @@ async def cmd_okay(callback: types.CallbackQuery, state : FSMContext):
     POS = user_data['POS']
     message_info = f'Стоимость: {CNY}\n' \
                    f'Кол-во: {POS}\n' \
-                   f'Общая стоимость заказа: {round((int(CNY) * data) + int(POS)*((22+33)*data+1000),2)}руб.'
+                   f'Общая стоимость заказа: {round((int(CNY) * data) + int(POS)*((24+40)*data+1000),2)}руб.'
     await callback.answer(text='Заказ принят!', show_alert=True)
     await callback.message.edit_text(text='Ваш заказ принят!', reply_markup=ok_kb)
     await bot.send_message(chat_id=5986509927,
