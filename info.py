@@ -17,4 +17,3 @@ def currency_info():
     return float(data)
 
 data = currency_info() +1.5
-print(data)
