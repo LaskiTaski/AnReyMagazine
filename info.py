@@ -12,8 +12,8 @@ def currency_info():
 
     soup = BeautifulSoup(response.text, 'lxml')
     # info = soup.find('div', class_="ConverterHeader-Rate").text
-    data = soup.find_all('div', class_="ConverterInput")[-1].find('input').\
+    course = soup.find_all('div', class_="ConverterInput")[-1].find('input').\
         get('value').replace(',', '.')
-    return float(data)
+    return float(course)
 
-data = currency_info() +1.5
+course = round(currency_info() +1.2,3)
