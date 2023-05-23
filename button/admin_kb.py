@@ -4,4 +4,4 @@ Delivery = InlineKeyboardButton('Стоимость доставки', callback_
 Guarantee = InlineKeyboardButton('Стоимость гарантии', callback_data='guarantee')
 Commission = InlineKeyboardButton('Комиссия', callback_data='commission')
 
-EXIT = InlineKeyboardButton('Закончить с настройками', callback_data='')
+Done = InlineKeyboardButton('Принять✅', callback_data='done')
